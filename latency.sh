@@ -1774,8 +1774,8 @@ run_comprehensive_test() {
                 echo -n "${resolved_ip} (解析${dns_time_ms}ms) "
                 
                 # Ping测试
-                local ping_result=$(ping -c 3 -W 2000 "$resolved_ip" 2>/dev/null | grep 'avg' | awk -F'/' '{print $(NF-1)}')
-                
+                local ping_result=$(ping -c 5 -W 2000 "$resolved_ip" 2>/dev/null | grep 'avg' | awk -F'/' '{print $(NF-1)}')
+
                 if [[ -n "$ping_result" ]]; then
                     echo -e "ping${ping_result}ms ✅"
                     
@@ -2590,9 +2590,9 @@ test_ip_latency() {
         local ping_result=""
         if [[ -n "$timeout_cmd" ]]; then
             if [[ -n "$interval" ]]; then
-                ping_result=$($timeout_cmd 5 $ping_cmd -c 1 $interval "$ip" 2>/dev/null || true)
+                ping_result=$($timeout_cmd 10 $ping_cmd -c 1 $interval "$ip" 2>/dev/null || true)
             else
-                ping_result=$($timeout_cmd 5 $ping_cmd -c 1 "$ip" 2>/dev/null || true)
+                ping_result=$($timeout_cmd 10 $ping_cmd -c 1 "$ip" 2>/dev/null || true)
             fi
         else
             if [[ -n "$interval" ]]; then
@@ -2681,7 +2681,7 @@ run_dns_comprehensive_analysis() {
                 echo -n "${resolved_ip} (解析${resolution_time}ms) "
                 
                 # 测试IP延迟
-                local ping_latency=$(test_ip_latency "$resolved_ip" 3)
+                local ping_latency=$(test_ip_latency "$resolved_ip" 5)
                 if [[ "$ping_latency" != "999999" ]] && [[ "$ping_latency" =~ ^[0-9]+\.?[0-9]*$ ]]; then
                     total_ping_time=$(echo "$total_ping_time + $ping_latency" | bc -l 2>/dev/null || echo "$total_ping_time")
                     ((successful_pings++))
