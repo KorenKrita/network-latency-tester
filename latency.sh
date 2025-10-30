@@ -1734,10 +1734,14 @@ run_comprehensive_test() {
     # 使用DNS菜单中的选项3的内容
     echo -e "${CYAN}🔍 DNS综合分析 (测试各DNS解析IP的实际延迟)${NC}"
     echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
-    echo -e "${BLUE}测试域名: google.com github.com apple.com${NC}"
+
+    # 使用FULL_SITES中的所有域名进行测试
+    local test_domains=()
+    for domain in "${FULL_SITES[@]}"; do
+        test_domains+=("$domain")
+    done
+    echo -e "${BLUE}测试域名: ${#test_domains[@]}个网站 (来自Ping/真连接测试)${NC}"
     echo ""
-    
-    local test_domains=("google.com" "github.com" "apple.com")
     declare -a analysis_results=()
     local dns_count=0
     
