@@ -1774,7 +1774,7 @@ run_comprehensive_test() {
                 echo -n "${resolved_ip} (解析${dns_time_ms}ms) "
                 
                 # Ping测试
-                local ping_result=$(ping -c 5 -W 2000 "$resolved_ip" 2>/dev/null | grep 'avg' | awk -F'/' '{print $(NF-1)}')
+                local ping_result=$(ping -c 5 -W 10000 "$resolved_ip" 2>/dev/null | grep 'avg' | awk -F'/' '{print $(NF-1)}')
 
                 if [[ -n "$ping_result" ]]; then
                     echo -e "ping${ping_result}ms ✅"
