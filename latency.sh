@@ -2634,9 +2634,12 @@ run_dns_comprehensive_analysis() {
     echo -e "   • 综合考虑DNS解析速度和ping延迟给出最佳建议"
     echo ""
     
-    # 选择测试域名
-    local test_domains=("google.com" "github.com" "apple.com")
-    echo -e "${CYAN}🎯 测试域名: ${test_domains[*]}${NC}"
+    # 选择测试域名 - 使用FULL_SITES中的所有域名
+    local test_domains=()
+    for domain in "${FULL_SITES[@]}"; do
+        test_domains+=("$domain")
+    done
+    echo -e "${CYAN}🎯 测试域名: ${#test_domains[@]}个网站 (来自Ping/真连接测试)${NC}"
     echo ""
     
     # 存储所有结果的数组
